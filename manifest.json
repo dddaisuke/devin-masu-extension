@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Devin 「ます」 Extension (Noto Sans JP Injector)",
+  "version": "1.0.0",
+  "description": "ページ上で font-family に \"Inter\" が使われている要素に対して、 \"Inter\" の直後へ \"Noto Sans JP\" を挿入した font-family を強制適用します。",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://devin.ai/*",
+        "https://app.devin.ai/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "host_permissions": [
+    "https://devin.ai/*",
+    "https://app.devin.ai/*"
+  ]
+}
