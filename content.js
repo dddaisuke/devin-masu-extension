@@ -24,7 +24,7 @@
 
     for (let i = 0; i < fontFamily.length; i++) {
       const ch = fontFamily[i];
-      if ((ch === '"' || ch === "'")) {
+      if (ch === '"' || ch === "'") {
         if (quote === ch) {
           quote = null;
         } else if (!quote) {
@@ -38,9 +38,11 @@
         current += ch;
       }
     }
+
     if (current.trim()) {
       parts.push(current.trim());
     }
+
     return parts;
   }
 
@@ -67,10 +69,10 @@
     if (el.tagName === 'SCRIPT' || el.tagName === 'STYLE' || el.tagName === 'LINK') return;
 
     let sourceFontFamily = '';
-    let existingInline = el.style && el.style.fontFamily ? el.style.fontFamily : '';
+    const inlineFontFamily = el.style?.fontFamily || '';
 
-    if (existingInline && hasInter(existingInline)) {
-      sourceFontFamily = existingInline;
+    if (inlineFontFamily && hasInter(inlineFontFamily)) {
+      sourceFontFamily = inlineFontFamily;
     } else {
       const computed = getComputedStyle(el).fontFamily || '';
       if (!hasInter(computed)) return;
@@ -84,6 +86,9 @@
     if (prev === updated) return;
 
     el.style.setProperty('font-family', updated, 'important');
+    el.style.setProperty('font-variant-ligatures', 'none', 'important');
+    el.style.setProperty('font-feature-settings', '"liga" 0, "clig" 0, "calt" 0', 'important');
+    el.style.setProperty('text-rendering', 'auto', 'important');
     el.setAttribute(MARK, '1');
     processed.set(el, updated);
   }
